@@ -12,9 +12,8 @@
     <!-- 
         根据id查询得到一个user对象
      -->
-    <select id="getdate" parameterType="int" 
-        resultType="sql.java.Info">
-        select * from info where id=#{id}
+    <select id="getdate" resultType="sql.java.Info">
+        select * from info order by id desc limit 1
     </select>
     <insert id="addInfo" parameterType="sql.java.Info">
         insert into info(type,txt,date) values(#{type},#{txt},#{date})
