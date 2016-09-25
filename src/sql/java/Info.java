@@ -5,6 +5,7 @@ public class Info {
 	private String type;
 	private String txt;
 	private String date;
+	private String channel;
 	public int getId() {
 		return id;
 	}
@@ -28,6 +29,12 @@ public class Info {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getChannel() {
+		return channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
 	}
 	
 }
