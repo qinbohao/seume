@@ -51,48 +51,25 @@ public class SeuProcessor implements PageProcessor {
 		/**
 		 * 机械工程学院
 		 */
-
 		else if(page.getUrl().toString().contains("http://me.seu.edu.cn/")){
 			List<String> infotitle=page.getHtml().xpath("//a[contains(@target,'_blank')]").all(); 
 			List<String> infodate=page.getHtml().xpath("//td[(@align='left') and (@width='30px')]").all(); 
 			List<String> infometitle=new ArrayList<String>();
 			List<String> infomedate=new ArrayList<String>();
-
-
 			for(String tmp:infotitle){
-
 				Document doc=Jsoup.parse(tmp);
 				Elements ele=doc.getElementsByTag("a");
-				infometitle.add(ele.attr("title"));
-				
+				infometitle.add(ele.attr("title"));		
 			}
-			for(String tmp:infodate){
-				
+			for(String tmp:infodate){		
 				Document doc=Jsoup.parse(tmp);
 				Elements ele=doc.getElementsByTag("div");
-				infomedate.add(ele.html());
-			
+				infomedate.add(ele.html());	
 			}
-			/*Document doc=Jsoup.parse(page.getHtml().toString());
-			Elements ele=doc.select("tr:has(a[target=_blank]");
-
-			//Elements ele=pele.select("tbody tr");
-			System.out.println(ele.html());
-			@SuppressWarnings("unchecked")
-			ListIterator<Element> elelist=(ListIterator<Element>) ele.listIterator();
-			List<String> infotitle=new ArrayList<String>();
-			List<String> infodate=new ArrayList<String>();
-			while(elelist.hasNext()){
-				System.out.println(elelist.next().select(">tr>tbody td a").attr("title").replaceAll(" ", ""));
-				//infotitle.add(elelist.next().select("td a").attr("title").replaceAll(" ", ""));
-				//infodate.add(elelist.next().select("td div").html().replaceAll(" ", ""));*/
-			//}
 			page.putField("infometitle", infometitle);
 			page.putField("infomedate", infomedate);
 
 		}
-
-
 	}
 
 	@Override
