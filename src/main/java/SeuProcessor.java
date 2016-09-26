@@ -78,15 +78,29 @@ public class SeuProcessor implements PageProcessor {
 	}
 
 	public static void main(String[] args) throws IOException {
-		GetSeuCookie cookie=new GetSeuCookie();
-		Map<String,String> ck=cookie.getcookie();
-		SeuProcessor spc=new SeuProcessor();	
-		spc.getSite().addHeader("Cookie","ASP.NET_SessionId=" + ck.get("ASP.NET_SessionId"))
-		.addHeader("Cookie", ".ASPXAUTH="+ck.get(".ASPXAUTH"));
-		Spider.create(spc)
-		.addUrl("http://10.1.30.98:8080/competition/c_stu_default.aspx")
-		.addUrl("http://me.seu.edu.cn/")
-		.addPipeline(new infoPipeline())
-		.run();   
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				GetSeuCookie cookie=new GetSeuCookie();
+				SeuProcessor spc=new SeuProcessor();	
+				while(true){
+					try{
+						
+						Map<String,String> ck=cookie.getcookie();
+					
+						spc.getSite().addHeader("Cookie","ASP.NET_SessionId=" + ck.get("ASP.NET_SessionId"))
+						.addHeader("Cookie", ".ASPXAUTH="+ck.get(".ASPXAUTH"));
+						Spider.create(spc)
+						.addUrl("http://10.1.30.98:8080/competition/c_stu_default.aspx")
+						.addUrl("http://me.seu.edu.cn/")
+						.addPipeline(new infoPipeline())
+						.run();
+						Thread.sleep(1000*60*20);
+					}catch(Exception e){
+
+					}
+				}
+			}
+		},"seu-me-listener").start();;
 	}
 }
