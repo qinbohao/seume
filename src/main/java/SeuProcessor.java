@@ -70,6 +70,26 @@ public class SeuProcessor implements PageProcessor {
 			page.putField("infomedate", infomedate);
 
 		}
+		
+		/**
+		 * ¿Î±í
+		 */
+		else if(page.getUrl().toString().contains("http://xk.urp.seu.edu.cn/")){
+			
+			List<String> info=page.getHtml().xpath("//td[@rowspan='5']").all(); 
+			List<String> infolesson=new ArrayList<String>();
+			for(String tmp:info){		
+				Document doc=Jsoup.parse(tmp);
+				if(doc.text().trim().contains("ÉÏÎç")||doc.text().trim().contains("ÏÂÎç")){
+					continue;
+				}else
+				{
+					infolesson.add(doc.text().trim());
+				}
+				
+			}
+			page.putField("infolesson", infolesson);
+		}
 	}
 
 	@Override
@@ -93,6 +113,7 @@ public class SeuProcessor implements PageProcessor {
 						Spider.create(spc)
 						.addUrl("http://10.1.30.98:8080/competition/c_stu_default.aspx")
 						.addUrl("http://me.seu.edu.cn/")
+						.addUrl("http://xk.urp.seu.edu.cn/jw_service/service/stuCurriculum.action?queryStudentId=213150192&queryAcademicYear=16-17-2")
 						.addPipeline(new infoPipeline())
 						.run();
 						Thread.sleep(1000*60*20);
